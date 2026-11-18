@@ -1,0 +1,43 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Segoe UI, Arial, sans-serif; font-size: 14px; color: #222; background: #f4f6f8; }
+header { background: #1f3a5f; padding: 12px 24px; }
+header h1 { margin: 0; font-size: 20px; }
+header a { color: #fff; text-decoration: none; }
+main { max-width: 1200px; margin: 20px auto; padding: 0 16px; }
+
+a { color: #1f5fa8; }
+.btn, button { display: inline-block; padding: 6px 12px; border: 1px solid #b8c2cc; border-radius: 4px; background: #fff; color: #222; text-decoration: none; cursor: pointer; font-size: 14px; }
+.btn:hover, button:hover { background: #eef2f6; }
+.primary { background: #1f5fa8; border-color: #1f5fa8; color: #fff; }
+.primary:hover { background: #184c86; }
+button.link { border: 0; background: none; padding: 0; color: #1f5fa8; }
+button.link.danger { color: #b3261e; }
+
+.toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+.toolbar input[type=text] { width: 320px; }
+
+input[type=text], input[type=date], select { padding: 6px 8px; border: 1px solid #b8c2cc; border-radius: 4px; font-size: 14px; background: #fff; }
+
+table { border-collapse: collapse; width: 100%; background: #fff; }
+th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid #e3e8ee; }
+th { background: #e9eef4; font-weight: 600; }
+table.rows td { padding: 4px; }
+table.rows input[type=text], table.rows select { width: 100%; }
+table.rows input.short { min-width: 70px; }
+td.empty { text-align: center; color: #666; padding: 24px; }
+td.actions form { display: inline; margin-left: 10px; }
+
+.pager { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+
+fieldset { background: #fff; border: 1px solid #d5dbe2; border-radius: 6px; margin-bottom: 16px; padding: 12px 16px 16px; }
+legend { font-weight: 600; padding: 0 6px; }
+.fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.fields label { display: flex; flex-direction: column; gap: 4px; }
+.fields input, .fields select { width: 100%; }
+fieldset > button { margin-top: 8px; }
+.form-actions { display: flex; gap: 8px; }
+
+.alert { padding: 10px 14px; border-radius: 4px; margin-bottom: 12px; }
+.alert.ok { background: #e3f4e6; border: 1px solid #a5d6ac; }
+.alert.error, .validation-summary-errors { background: #fdeaea; border: 1px solid #f0b4b0; color: #7a1d17; padding: 10px 14px; border-radius: 4px; margin-bottom: 12px; }
+.validation-summary-errors ul { margin: 4px 0 0; padding-left: 20px; }

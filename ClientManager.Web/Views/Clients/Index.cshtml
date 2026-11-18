@@ -1,0 +1,76 @@
+@model ClientManager.Web.Models.ClientListViewModel
+@{
+    ViewBag.Title = "Clients";
+}
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert ok">@TempData["Message"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert error">@TempData["Error"]</div>
+}
+
+<div class="toolbar">
+    <form method="get" action="@Url.Action("Index", "Clients")">
+        <input type="text" name="search" value="@Model.Search" placeholder="Search last name, first name or ID number" />
+        <button type="submit">Search</button>
+        <a class="btn" href="@Url.Action("Index", "Clients")">Clear</a>
+    </form>
+    <div>
+        <a class="btn primary" href="@Url.Action("Create", "Clients")">Add client</a>
+        <a class="btn" href="@Url.Action("Export", "Clients")">Export CSV</a>
+    </div>
+</div>
+
+<table class="data">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Last name</th>
+            <th>First name</th>
+            <th>Gender</th>
+            <th>Date of birth</th>
+            <th>ID number</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model.Page.Items)
+        {
+            <tr>
+                <td>@c.ClientId</td>
+                <td>@c.LastName</td>
+                <td>@c.FirstName</td>
+                <td>@c.GenderName</td>
+                <td>@(c.DateOfBirth.HasValue ? c.DateOfBirth.Value.ToString("yyyy-MM-dd") : "")</td>
+                <td>@c.IdNumber</td>
+                <td class="actions">
+                    <a href="@Url.Action("Edit", "Clients", new { id = c.ClientId })">Edit</a>
+                    <form method="post" action="@Url.Action("Delete", "Clients", new { id = c.ClientId })"
+                          onsubmit="return confirm('Delete this client and all of their addresses and contact details?');">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="link danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        @if (Model.Page.Items.Count == 0)
+        {
+            <tr><td colspan="7" class="empty">No clients found.</td></tr>
+        }
+    </tbody>
+</table>
+
+<div class="pager">
+    @if (Model.Page.PageNumber > 1)
+    {
+        <a class="btn" href="@Url.Action("Index", "Clients", new { search = Model.Search, page = Model.Page.PageNumber - 1 })">&laquo; Previous</a>
+    }
+    <span>Page @Model.Page.PageNumber of @Model.TotalPages (@Model.Page.TotalCount.ToString("N0") clients)</span>
+    @if (Model.Page.PageNumber < Model.TotalPages)
+    {
+        <a class="btn" href="@Url.Action("Index", "Clients", new { search = Model.Search, page = Model.Page.PageNumber + 1 })">Next &raquo;</a>
+    }
+</div>

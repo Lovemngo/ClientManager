@@ -1,0 +1,98 @@
+@model ClientManager.Data.ClientDto
+@{
+    var lookups = (LookupData)ViewBag.Lookups;
+    ViewBag.Title = Model.ClientId == 0 ? "Add client" : "Edit client";
+
+    var genders = new List<LookupItem> { new LookupItem { Id = 0, Name = "-- Select --" } };
+    genders.AddRange(lookups.Genders);
+
+    string dob = Model.DateOfBirth.HasValue ? Model.DateOfBirth.Value.ToString("yyyy-MM-dd") : "";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@Html.ValidationSummary(true, "Please correct the following:", new { @class = "alert error" })
+
+@using (Html.BeginForm("Save", "Clients", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.ClientId)
+
+    <fieldset>
+        <legend>Client details</legend>
+        <div class="fields">
+            <label>First name *
+                @Html.TextBoxFor(m => m.FirstName, new { maxlength = 100 })
+            </label>
+            <label>Last name *
+                @Html.TextBoxFor(m => m.LastName, new { maxlength = 100 })
+            </label>
+            <label>Gender *
+                @Html.DropDownListFor(m => m.GenderId, new SelectList(genders, "Id", "Name", Model.GenderId))
+            </label>
+            <label>Date of birth
+                <input type="date" name="DateOfBirth" value="@dob" />
+            </label>
+            <label>ID number
+                @Html.TextBoxFor(m => m.IdNumber, new { maxlength = 20 })
+            </label>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Addresses</legend>
+        <table class="rows">
+            <thead>
+                <tr>
+                    <th>Type</th><th>Address line 1 *</th><th>Line 2</th><th>Suburb</th>
+                    <th>City</th><th>Postal code</th><th>Country</th><th></th>
+                </tr>
+            </thead>
+            <tbody id="address-rows">
+                @for (int i = 0; i < Model.Addresses.Count; i++)
+                {
+                    Html.RenderPartial("_AddressRow", new AddressRowModel
+                    {
+                        Index = i.ToString(),
+                        Address = Model.Addresses[i],
+                        Types = lookups.AddressTypes
+                    });
+                }
+            </tbody>
+        </table>
+        <button type="button" id="add-address">+ Add address</button>
+    </fieldset>
+
+    <fieldset>
+        <legend>Contact details</legend>
+        <table class="rows">
+            <thead>
+                <tr><th>Type</th><th>Number / email *</th><th></th></tr>
+            </thead>
+            <tbody id="contact-rows">
+                @for (int i = 0; i < Model.Contacts.Count; i++)
+                {
+                    Html.RenderPartial("_ContactRow", new ContactRowModel
+                    {
+                        Index = i.ToString(),
+                        Contact = Model.Contacts[i],
+                        Types = lookups.ContactTypes
+                    });
+                }
+            </tbody>
+        </table>
+        <button type="button" id="add-contact">+ Add contact</button>
+    </fieldset>
+
+    <div class="form-actions">
+        <button type="submit" class="primary">Save</button>
+        <a class="btn" href="@Url.Action("Index", "Clients")">Cancel</a>
+    </div>
+}
+
+<script type="text/template" id="address-template">@Html.Partial("_AddressRow", new AddressRowModel { Index = "__i__", Address = new AddressDto(), Types = lookups.AddressTypes })</script>
+<script type="text/template" id="contact-template">@Html.Partial("_ContactRow", new ContactRowModel { Index = "__i__", Contact = new ContactDto(), Types = lookups.ContactTypes })</script>
+
+@section scripts {
+    <script src="~/Scripts/clients.js"></script>
+}

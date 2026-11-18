@@ -1,0 +1,8 @@
+@model string
+@{
+    ViewBag.Title = "Error";
+}
+
+<h2>Something went wrong</h2>
+<div class="alert error">@Model</div>
+<p><a class="btn" href="@Url.Action("Index", "Clients")">Back to clients</a></p>

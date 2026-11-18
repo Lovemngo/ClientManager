@@ -1,0 +1,22 @@
+@model ClientManager.Web.Models.ContactRowModel
+<tr class="item-row">
+    <td>
+        <input type="hidden" name="Contacts.Index" value="@Model.Index" />
+        <input type="hidden" name="Contacts[@Model.Index].ContactId" value="@Model.Contact.ContactId" />
+        <select name="Contacts[@Model.Index].ContactTypeId">
+            @foreach (var t in Model.Types)
+            {
+                if (t.Id == Model.Contact.ContactTypeId)
+                {
+                    <option value="@t.Id" selected="selected">@t.Name</option>
+                }
+                else
+                {
+                    <option value="@t.Id">@t.Name</option>
+                }
+            }
+        </select>
+    </td>
+    <td><input type="text" name="Contacts[@Model.Index].Value" value="@Model.Contact.Value" maxlength="150" /></td>
+    <td><button type="button" class="link danger remove-row">Remove</button></td>
+</tr>

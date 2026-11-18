@@ -1,0 +1,27 @@
+@model ClientManager.Web.Models.AddressRowModel
+<tr class="item-row">
+    <td>
+        <input type="hidden" name="Addresses.Index" value="@Model.Index" />
+        <input type="hidden" name="Addresses[@Model.Index].AddressId" value="@Model.Address.AddressId" />
+        <select name="Addresses[@Model.Index].AddressTypeId">
+            @foreach (var t in Model.Types)
+            {
+                if (t.Id == Model.Address.AddressTypeId)
+                {
+                    <option value="@t.Id" selected="selected">@t.Name</option>
+                }
+                else
+                {
+                    <option value="@t.Id">@t.Name</option>
+                }
+            }
+        </select>
+    </td>
+    <td><input type="text" name="Addresses[@Model.Index].Line1" value="@Model.Address.Line1" maxlength="150" /></td>
+    <td><input type="text" name="Addresses[@Model.Index].Line2" value="@Model.Address.Line2" maxlength="150" /></td>
+    <td><input type="text" name="Addresses[@Model.Index].Suburb" value="@Model.Address.Suburb" maxlength="100" /></td>
+    <td><input type="text" name="Addresses[@Model.Index].City" value="@Model.Address.City" maxlength="100" /></td>
+    <td><input type="text" name="Addresses[@Model.Index].PostalCode" value="@Model.Address.PostalCode" maxlength="20" class="short" /></td>
+    <td><input type="text" name="Addresses[@Model.Index].Country" value="@Model.Address.Country" maxlength="100" /></td>
+    <td><button type="button" class="link danger remove-row">Remove</button></td>
+</tr>
